@@ -5,8 +5,25 @@ import os
 
 import requests
 from PIL import Image, PngImagePlugin
-
+import re
 import glob
+
+
+def parse_content(content):
+    items = content.split(";")
+    # print(lines)
+    info = {}
+    for item in items:
+        item = re.sub("#.*?#", "", item)
+        if item.strip():
+            idx = item.find(':')
+            k, v = item[:idx].strip(), item[idx + 1:].strip()
+            if '[' in v or '{' in v:
+                # print(v)
+                v = eval(v)
+            info[k] = v
+
+    return info
 
 
 def process_process(process_dir):
@@ -16,20 +33,8 @@ def process_process(process_dir):
         # print(process_txt_path)
         with open(process_txt_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        # print(content)
-        items = content.split(";")
-        # print(lines)
-        process_info = {}
-        for item in items:
-            if item.strip():
-                idx = item.find(':')
-                k, v = item[:idx].strip(), item[idx + 1:].strip()
-                if '[' in v or '{' in v:
-                    # print(v)
-                    v = eval(v)
-                process_info[k] = v
-            # break
-        # break
+
+        process_info = parse_content(content)
         process_list.append(process_info)
 
     process_list.sort(key=lambda x: int(x.get('Process number')))
@@ -46,16 +51,7 @@ def process_task(task_path):
     # print(task_blocks)
 
     for task_block in task_blocks:
-        task_info = {}
-        items = task_block.split(';')
-        for item in items:
-            if item.strip():
-                idx = item.find(':')
-                k, v = item[:idx].strip(), item[idx + 1:].strip()
-                if '[' in v or '{' in v:
-                    v = eval(v)
-                task_info[k] = v
-        # print(task_info)
+        task_info = parse_content(task_block)
         task_list.append(task_info)
 
     task_list.sort(key=lambda x: int(x.get('Task number')))
@@ -107,7 +103,7 @@ def run(args):
 
             r = response.json()
 
-            cnt=0
+            cnt = 0
 
             for i in r['images']:
                 image = Image.open(io.BytesIO(base64.b64decode(i.split(",", 1)[0])))
@@ -119,8 +115,8 @@ def run(args):
 
                 pnginfo = PngImagePlugin.PngInfo()
                 pnginfo.add_text("parameters", response2.json().get("info"))
-                png_name = str(cnt)+".png"
-                cnt+=1
+                png_name = str(cnt) + ".png"
+                cnt += 1
                 png_path = os.path.join(output_process_path, png_name)
                 image.save(png_path, pnginfo=pnginfo)
             print("\n*******************************************************************")

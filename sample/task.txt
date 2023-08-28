@@ -1,3 +1,4 @@
+#注释#
 Task number: 1;
 Task name: 任务1;
 prompt: 1girl;
@@ -7,10 +8,10 @@ negative_prompt: bad hand;
   ————————————————————————————————————————
 Task number: 2;
 Task name: 任务2;
-prompt: 2girl;
-
-negative_prompt:;
-
+prompt: 2girl; #注释#
+#注释#
+#注释# negative_prompt:;
+#注释#
   ————————————————————————————————————————
 Task number: 3;
 Task name: 任务3;

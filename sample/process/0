@@ -7,7 +7,7 @@ hr_upscaler: R-ESRGAN 4x+ Anime6B;
 prompt: masterpiece,best quality,official art,extremely detailed CG unity 8k wallpaper,best quality,mature male,
         simple background,facial hair,solo,beard,brown hair,bust portrait,blue hat,full beard,Smile,Big nose,wrinkle,
         brown eyebrows,bulbous nose,Garlic nose,brown belt,Pants,shirt,light skin,Slightly chubby man,short nose,
-        toothy grin,Hollwoodian beard,<lora:KT-lora-rev-V1.0:0.8>,;
+        toothy grin,Hollwoodian beard,; #注释#
 seed: -1;
 sampler_name: Euler a;
 batch_size: 1;
@@ -30,13 +30,13 @@ override_settings: {
 };
 override_settings_restore_afterwards: true;
 script_args: [1,
-              "1111,2222,3333,4444,5555",
+              "1111,2222,3333,4444,5555",#注释#
               [],
               0,
-              "",
+              "",#注释#
               [],
               0,
-              "",
+              "",#注释#
               [],
               True,False,False,False,0];
 script_name: x/y/z plot;
@@ -47,7 +47,7 @@ alwayson_scripts: {
         "args": [
             "true",
             {
-                "ad_model": "face_yolov8n.pt",
+                "ad_model": "face_yolov8n.pt",#注释#
                 "ad_prompt": "",
                 "ad_negative_prompt": "",
                 "ad_confidence": 0.3,
